@@ -1,5 +1,4 @@
 from nomeroff_net import pipeline
-from nomeroff_net.tools import unzip
 import os
 import cv2
 
@@ -22,14 +21,13 @@ dictionary = 'D:/sto_project/nomeroff-net/my_imgs/street'
 for filename in os.listdir(dictionary):
     path = dictionary + '/' + filename
     img, img_box, zone, text = number_plate_detection_and_reading([path])[0]
-    print(text)
-    print(img_box)
-    output = img.copy()
-    x0, y0, x1, y1, _, _ = img_box[0]
-    img_rgb = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
+    x0, y0, x1, y1, *_ = img_box[0]
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     cv2.rectangle(img_rgb, (int(x0), int(y0)), (int(x1), int(y1)), (0, 255, 0), 2)
     cv2.putText(img_rgb, text[0], (int(x0), int(y1)+30), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
     k = 0.6
     cv2.imshow('car', cv2.resize(img_rgb, (int(1920*k), int(1080*k))))
     cv2.waitKey(0)
+
+
 
